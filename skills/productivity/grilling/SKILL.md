@@ -10,6 +10,7 @@ Work the tree in **rounds**. The **frontier** is every decision whose prerequisi
 When the `AskUserQuestion` tool is available, ask the round through it. Answering by picking an option is faster than reading and typing a reply.
 
 - One tool question per frontier question. The tool takes at most 4 questions per call, so put a larger frontier into consecutive calls in the same round.
+- Write each question and option in plain language: describe what the user would see or what happens, not code identifiers, flags, or names they haven't been shown.
 - Give 2–4 options, each self-contained and answerable without scrolling back. Put your recommended answer first and append " (Recommended)" to its label. The user can always pick "Other" to type a free-form answer, so don't add one.
 - Put the reasoning in each option's `description`. Keep `header` to 12 characters or fewer.
 - When a question is open-ended and has no natural options, offer your best 2–3 candidate answers anyway; "Other" covers the rest.
