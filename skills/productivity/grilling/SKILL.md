@@ -5,9 +5,16 @@ description: Grill the user relentlessly about a plan, decision, or idea. Use wh
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
 
-Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
+Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round, giving your recommended answer for each. Then wait for the user's answers before the next round.
 
-Format a round like so:
+When the `AskUserQuestion` tool is available, ask the round through it. Answering by picking an option is faster than reading and typing a reply.
+
+- One tool question per frontier question. The tool takes at most 4 questions per call, so put a larger frontier into consecutive calls in the same round.
+- Give 2–4 options, each self-contained and answerable without scrolling back. Put your recommended answer first and append " (Recommended)" to its label. The user can always pick "Other" to type a free-form answer, so don't add one.
+- Put the reasoning in each option's `description`. Keep `header` to 12 characters or fewer.
+- When a question is open-ended and has no natural options, offer your best 2–3 candidate answers anyway; "Other" covers the rest.
+
+Without the tool, format a round as text like so:
 
 ```
 ❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
