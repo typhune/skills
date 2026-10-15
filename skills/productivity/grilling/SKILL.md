@@ -14,6 +14,8 @@ When the `AskUserQuestion` tool is available, ask the round through it. Answerin
 - Give 2–4 options, each self-contained and answerable without scrolling back. Put your recommended answer first and append " (Recommended)" to its label. The user can always pick "Other" to type a free-form answer, so don't add one.
 - Put the reasoning in each option's `description`. Keep `header` to 12 characters or fewer.
 - When a question is open-ended and has no natural options, offer your best 2–3 candidate answers anyway; "Other" covers the rest.
+- Text you write in the same message as the tool call may reach the user only as a one-line paraphrase. Put every fact a question rests on (what a sub-agent found, a price, a constraint) inside that question's text or option `description`s; use an option's `preview` for anything tabular or long.
+- The closing shared-understanding summary is the one thing that can't fit in a question. Send it as a message on its own that ends your turn, and ask for confirmation in the next turn.
 
 Without the tool, format a round as text like so:
 
