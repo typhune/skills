@@ -11,7 +11,7 @@ Work the tree in **rounds**. The **frontier** is every decision whose prerequisi
 
 Ask the round **one question at a time**, each standing on its own: the user sees only the question in front of them while answering it, so every question carries what it decides, the facts it rests on (what a sub-agent found, a number, a constraint), the candidate answers, your recommendation and why. Write in plain language: describe what the user would see or what happens, not code identifiers or names they haven't been shown.
 
-When the `ask_round` tool (from the grill-queue mod) is available, pass the whole frontier to it in one call and end your turn with one short line. The mod shows the questions one by one and returns all the answers together in the user's next message. Don't restate the questions in prose.
+When the `ask_round` tool (from the grill-queue mod) is available, pass the whole frontier to it in one call. The mod hands back one question at a time, already formatted: show each exactly as given and end your turn. After the last answer it gives you the whole round's answers together.
 
 Without it, ask in prose: one question per message, ending your turn, in the order the frontier allows. Hold each answer until the round is complete before recomputing the frontier. Format each like so:
 
