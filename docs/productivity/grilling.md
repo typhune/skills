@@ -75,6 +75,7 @@ This is a real bug, still unfixed, and users report it across [harnesses](https:
 ## It's working if
 
 - A round arrives as a numbered list, each question with its recommendation on a separate `➡️` line, and you can answer the whole round by number.
+- The first round asks what should happen once the plan succeeds and what, other than you or the agent, will show it worked, before any question about the plan's details.
 - Nothing in a round needs another question in the same round answered first.
 - Later rounds ask things the first round could not have asked.
 - It goes and looks facts up (reading files, dispatching a sub-agent) rather than asking you something it could have found out.

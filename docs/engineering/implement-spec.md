@@ -73,6 +73,7 @@ A worktree holds only what git tracks. Tests that read gitignored fixtures, loca
 - A ticket starts as soon as its last blocker lands on the integration branch, not when the whole run ends.
 - Every ticket's trace shows `tdd` running, with a failing test before the code.
 - Merges into the integration branch are fast-forwards, not conflict resolutions.
+- Alongside the final code review, a red-team pass reports failing tests for cases the spec never considered.
 - The run ends on one branch with every ticket resolved, and a PR only if your tracker wanted one.
 
 ## Where it fits

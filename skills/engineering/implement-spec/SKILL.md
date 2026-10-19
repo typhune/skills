@@ -33,7 +33,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 6. If this changes the **frontier** of available tickets, kick off more **implementer subagents** to work on the new tickets. This allows for maximum concurrency.
 
-7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. Fix all issues raised by the code review in a single **implementer subagent**.
+7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. In parallel, run one **red-team subagent** whose job is to break the spec's assumptions, not the code style: feed it inputs, states and orderings the spec never imagined, and have it report each one as a failing test. Fix all issues raised by both in a single **implementer subagent**.
 
 8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
 
