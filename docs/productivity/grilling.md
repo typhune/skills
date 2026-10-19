@@ -2,7 +2,7 @@
 
 `grilling` is the interview loop that stress-tests a plan, a decision, or an idea before anyone acts on it. It maps the subject as a **design tree**: every decision branches into the decisions that hang off it, and interviews you branch by branch until no assumption stays unstated.
 
-It does not ask one question at a time, and it does not ask everything at once. Each **round** asks the whole **frontier**: every decision whose prerequisites are already settled, and nothing else. Two questions never share a round if one depends on the other; a question that hinges on an answer still open belongs to a later round. Your answers settle decisions, the frontier moves outward, and the next round asks what that unblocked. Thirteen questions typically land in about three rounds rather than thirteen.
+It plans in rounds but asks one question at a time. Each **round** is the whole **frontier**: every decision whose prerequisites are already settled, and nothing else. Two questions never share a round if one depends on the other; a question that hinges on an answer still open belongs to a later round. Your answers settle decisions, the frontier moves outward, and the next round asks what that unblocked. Thirteen questions typically land in about three rounds rather than thirteen.
 
 ## When to reach for it
 
@@ -24,7 +24,7 @@ The skill rests on three ideas.
 
 The **design tree** is the model of the subject: decisions with decisions hanging off them. The **frontier** is the set of decisions whose prerequisites are all settled: the only questions the agent can ask yet. A **round** is one frontier, asked in full and answered in full.
 
-Inside a round, every question has a fixed format: numbered and titled behind a `❓`, then the body, then the agent's recommended answer alone on a `➡️` line. This format lets you answer a round by number ("1 yes, 2 the second option, 3 no, here's why") instead of by quoting questions back. The format has one known problem. The recommendation sometimes argues *against* the question as it was worded, so agreeing with the recommendation means answering "no" to the question. When that happens, answer the recommendation and say so.
+Inside a round, the agent asks one question per message, each standing on its own: titled "Round r, question i of n" behind a `❓`, then what it decides and the facts it rests on, the candidate answers, and the recommendation with its reason on a `➡️` line. Your answers are held until the round is complete; then the agent recomputes the frontier. With the grill-queue mod installed, the agent hands the round to the mod, which shows each question above your prompt and returns the answers together. The format has one known problem. The recommendation sometimes argues *against* the question as it was worded, so agreeing with the recommendation means answering "no" to the question. When that happens, answer the recommendation and say so.
 
 The other half of the design is the split between facts and decisions. Facts are the skill's own job. When a frontier question needs something the [environment](https://www.aihero.dev/ai-coding-dictionary/environment) can settle, the agent dispatches a [sub-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) to find out rather than asking you. The round does not wait for that research; only the questions that depend on it wait. Decisions are yours, and the agent must wait for them. An agent running `grilling` that answers its own decisions has broken the skill. The session ends when the frontier is empty. The agent then waits for you to confirm a shared understanding before it acts on what you agreed.
 
@@ -42,17 +42,11 @@ This page covers the mechanism. The wrapper skills' pages answer the questions p
 
 ## Common questions
 
-**Can I go back to one question at a time?**
-Yes, and a large part of the audience does. Add this to your global `CLAUDE.md`:
-
-```
-When grilling, ask one question at a time.
-```
-
-Not everyone prefers the round-based default. Users who read slowly, who work in a second language, or who use the sequential format to help them focus report that one question at a time works better for them. The opt-out is a supported setting, not a workaround.
+**Why one question at a time instead of the whole round at once?**
+A batch of questions, or a picker dialog, squeezes each question's context into a line, and the reasons behind it get lost. One question per message keeps every fact it rests on in front of you while you answer. Rounds still decide which questions can be asked together; they just arrive one by one.
 
 **Where did `/batch-grill-me` go?**
-Into this skill. Round-based questioning shipped briefly as a separate skill, then moved into `grilling` itself, so everything built on the primitive (`grill-me`, `grill-with-docs`, `triage`, `wayfinder`) got it at once. There is no `batch-grill-me` to install, and no separate sequential skill either; the `CLAUDE.md` line above is the way back to one-at-a-time.
+Into this skill. Round-based questioning shipped briefly as a separate skill, then moved into `grilling` itself, so everything built on the primitive (`grill-me`, `grill-with-docs`, `triage`, `wayfinder`) got it at once. There is no `batch-grill-me` to install, and no separate sequential skill either; one-at-a-time is now the default.
 
 **Asking a whole round at once must lose the questions my earlier answers would have raised. Doesn't it?**
 This is the most common objection to rounds, and the frontier answers it. A round only contains questions that do not depend on each other, so no answer in a round can invalidate another question in that round. Your answers still change what comes after them, because the agent works out each next round from scratch. You do lose something, but less than "all questions at once" implies. See the frontier's limit above.
@@ -74,14 +68,14 @@ This is a real bug, still unfixed, and users report it across [harnesses](https:
 
 ## It's working if
 
-- A round arrives as a numbered list, each question with its recommendation on a separate `➡️` line, and you can answer the whole round by number.
+- Each question arrives on its own, labelled "question i of n", with enough context that you never scroll back to answer it, and its recommendation on a `➡️` line.
 - The first round asks what should happen once the plan succeeds and what, other than you or the agent, will show it worked, before any question about the plan's details.
 - Nothing in a round needs another question in the same round answered first.
 - Later rounds ask things the first round could not have asked.
 - It goes and looks facts up (reading files, dispatching a sub-agent) rather than asking you something it could have found out.
 - Research running in the background does not stall the round; only the questions that depend on it wait.
 - It stops at the end and asks you to confirm the understanding is shared, instead of starting work.
-- Question count stays high while round count stays low.
+- The agent recomputes the frontier only after the whole round is answered.
 
 ## Where it fits
 

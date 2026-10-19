@@ -9,28 +9,21 @@ The tree's root is the **outcome**, not the plan as framed. Open with a round-ze
 
 Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round, giving your recommended answer for each. Then wait for the user's answers before the next round.
 
-When the `AskUserQuestion` tool is available, ask the round through it. Answering by picking an option is faster than reading and typing a reply.
+Ask the round **one question at a time**, each standing on its own: the user sees only the question in front of them while answering it, so every question carries what it decides, the facts it rests on (what a sub-agent found, a number, a constraint), the candidate answers, your recommendation and why. Write in plain language: describe what the user would see or what happens, not code identifiers or names they haven't been shown.
 
-- One tool question per frontier question. The tool takes at most 4 questions per call, so put a larger frontier into consecutive calls in the same round.
-- Write each question and option in plain language: describe what the user would see or what happens, not code identifiers, flags, or names they haven't been shown.
-- Give 2–4 options, each self-contained and answerable without scrolling back. Put your recommended answer first and append " (Recommended)" to its label. The user can always pick "Other" to type a free-form answer, so don't add one.
-- Put the reasoning in each option's `description`. Keep `header` to 12 characters or fewer.
-- When a question is open-ended and has no natural options, offer your best 2–3 candidate answers anyway; "Other" covers the rest.
-- Text you write in the same message as the tool call may reach the user only as a one-line paraphrase. Put every fact a question rests on (what a sub-agent found, a price, a constraint) inside that question's text or option `description`s; use an option's `preview` for anything tabular or long.
-- The closing shared-understanding summary is the one thing that can't fit in a question. Send it as a message on its own that ends your turn, and ask for confirmation in the next turn.
+When the `ask_round` tool (from the grill-queue mod) is available, pass the whole frontier to it in one call and end your turn with one short line. The mod shows the questions one by one and returns all the answers together in the user's next message. Don't restate the questions in prose.
 
-Without the tool, format a round as text like so:
+Without it, ask in prose: one question per message, ending your turn, in the order the frontier allows. Hold each answer until the round is complete before recomputing the frontier. Format each like so:
 
 ```
-❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+❓ **Round <r>, question <i> of <n>: <question title>**
 
-➡️ <your recommended answer>
+<what this decides and the facts it rests on, as many sentences as it needs>
 
----
+- a. <candidate answer>
+- b. <candidate answer>
 
-❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
-
-➡️ <your recommended answer>
+➡️ <your recommended answer>, because <why>
 ```
 
 Word each question so "yes" accepts your recommended answer.
